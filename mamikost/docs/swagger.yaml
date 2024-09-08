@@ -1,0 +1,811 @@
+basePath: /api/
+definitions:
+  models.AddOrderDetailRequest:
+    properties:
+      orpd_orpo_id:
+        type: integer
+      orpd_price:
+        type: number
+      orpd_qty_unit:
+        type: integer
+      orpd_repo_id:
+        type: integer
+      orpd_total_price:
+        type: number
+    type: object
+  models.CreateCategoryRequest:
+    properties:
+      cate_name:
+        type: string
+    type: object
+  models.CreateOrderRequest:
+    properties:
+      orpo_patrx_no:
+        type: string
+      orpo_purchase_no:
+        type: string
+      orpo_subtotal:
+        type: number
+      orpo_tax:
+        type: number
+      orpo_user_id:
+        type: integer
+    type: object
+  models.CreateRentPropertyRequest:
+    properties:
+      repo_cate_id:
+        type: integer
+      repo_desc:
+        type: string
+      repo_name:
+        type: string
+      repo_price:
+        type: number
+    required:
+    - repo_cate_id
+    - repo_name
+    - repo_price
+    type: object
+  models.CreateUserRequest:
+    properties:
+      user_email:
+        type: string
+      user_name:
+        type: string
+      user_password:
+        type: string
+      user_phone:
+        type: string
+    required:
+    - user_name
+    - user_password
+    type: object
+  models.UpdateCategoryParams:
+    properties:
+      cate_id:
+        type: integer
+      cate_name:
+        type: string
+    type: object
+  models.UpdateRentPropertyRequest:
+    properties:
+      repo_cate_id:
+        type: integer
+      repo_desc:
+        type: string
+      repo_name:
+        type: string
+      repo_price:
+        type: number
+    required:
+    - repo_cate_id
+    - repo_name
+    - repo_price
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api
+host: localhost:8888
+info:
+  contact:
+    email: support@swagger.io
+    name: ivanmuhammad977@gmail.com
+    url: http://www.swagger.io/support
+  description: Lorem Ipsum
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Mamikost
+  version: "1.0"
+paths:
+  /category/:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all available categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: Get all categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: CreateCategory
+      parameters:
+      - description: Create Category Request
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: CreateCategory
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteCategory
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: DeleteCategory
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      description: GetCategoryById
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetCategoryById
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      description: UpdateCategory
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Category Request
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateCategoryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: UpdateCategory
+      tags:
+      - Category
+  /order/:
+    post:
+      consumes:
+      - application/json
+      description: CreateOrder
+      parameters:
+      - description: Order creation request payload
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: CreateOrder
+      tags:
+      - Orders
+  /order/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteOrder
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: DeleteOrder
+      tags:
+      - Orders
+    get:
+      consumes:
+      - application/json
+      description: GetOrderByID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetOrderByID
+      tags:
+      - Orders
+  /order/detail/:
+    post:
+      consumes:
+      - application/json
+      description: AddOrderDetail
+      parameters:
+      - description: Order detail request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddOrderDetailRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: AddOrderDetail
+      tags:
+      - OrderDetails
+  /order/detail/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: RemoveItemFromOrder
+      parameters:
+      - description: Order item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: RemoveItemFromOrder
+      tags:
+      - OrderDetails
+  /profile:
+    get:
+      consumes:
+      - application/json
+      description: GetProfile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetProfile
+  /repro/:
+    get:
+      consumes:
+      - application/json
+      description: GetAllRentProperties
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetAllRentProperties
+      tags:
+      - RentProperty
+    post:
+      consumes:
+      - application/json
+      description: CreateRentProperty
+      parameters:
+      - description: Create Rent Property Request
+        in: body
+        name: property
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateRentPropertyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: CreateRentProperty
+      tags:
+      - RentProperty
+  /repro/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteRentProperty
+      parameters:
+      - description: Rent Property ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: DeleteRentProperty
+      tags:
+      - RentProperty
+    get:
+      consumes:
+      - application/json
+      description: GetRentPropertyByID
+      parameters:
+      - description: Rent Property ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetRentPropertyByID
+      tags:
+      - RentProperty
+    put:
+      consumes:
+      - application/json
+      description: UpdateRentProperty
+      parameters:
+      - description: Rent Property ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Rent Property Request
+        in: body
+        name: property
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRentPropertyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: UpdateRentProperty
+      tags:
+      - RentProperty
+  /repro/image/:
+    get:
+      description: GetAllImages
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetAllImages
+      tags:
+      - RentPropertiesImages
+    post:
+      consumes:
+      - multipart/form-data
+      description: UploadImage
+      parameters:
+      - description: Upload image file
+        in: formData
+        name: frim_filename
+        required: true
+        type: file
+      - description: Default Image
+        in: formData
+        name: frim_default
+        type: boolean
+      - description: Rent property ID
+        in: formData
+        name: frim_repo_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: UploadImage
+      tags:
+      - RentPropertiesImages
+  /repro/image/{id}:
+    delete:
+      description: DeleteImage
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: DeleteImage
+      tags:
+      - RentPropertiesImages
+    get:
+      description: GetImageByID
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: GetImageByID
+      tags:
+      - RentPropertiesImages
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: Signin
+      parameters:
+      - description: User signin details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: Signin
+      tags:
+      - Users
+  /signout:
+    post:
+      consumes:
+      - application/json
+      description: Signout
+      parameters:
+      - description: Bearer access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Signout Success
+        "400":
+          description: Bad Request
+          schema:
+            type: ""
+      security:
+      - Bearer: []
+      summary: Signout
+      tags:
+      - Users
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with the provided details.
+      parameters:
+      - description: User signup details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            type: ""
+      summary: User signup
+      tags:
+      - Users
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
