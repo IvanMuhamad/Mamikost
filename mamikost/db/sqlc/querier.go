@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	AddItemOrder(ctx context.Context, arg AddItemOrderParams) (*OrderRentPropertiesDetail, error)
 	AddOrderDetail(ctx context.Context, arg AddOrderDetailParams) (*OrderRentPropertiesDetail, error)
 	CreateCart(ctx context.Context, arg CreateCartParams) (*Cart, error)
 	CreateCategory(ctx context.Context, cateName string) (int32, error)
