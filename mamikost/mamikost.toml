@@ -4,15 +4,27 @@
 # Connection string is in Go pq driver format:
 # host=<host> port=<port> user=<databaseUser> password=<databaseUserPassword> dbname=<databaseName>
 
+#host.docker.internal
 [database]
 
-connection_string = "host=localhost port=5432 user=postgres password=palembang dbname=mamikost2 sslmode=disable"
+connection_string = "postgres://postgres:admin@postgresDB:5432/mamikost_dbx?sslmode=disable"
 max_idle_connections = 5
-max_open_connections = 20
+max_open_connections = 10
 connection_max_lifetime = "60s"
 driver_name = "postgres"
 ###############################################################################
 # HTTP server configuration
+
+[migration]
+
+migration_path="db/migrations"
+db_url ="postgres://postgres:admin@postgresDB:5432/mamikost_dbx?sslmode=disable"
+db_username = "postgres"
+db_password = "admin"
+db_dbname = "mamikost_dbx"
+db_port = "5432"
+db_hostname = "postgresDB"
+db_recreate = "true"
 
 [http]
 host = "localhost"

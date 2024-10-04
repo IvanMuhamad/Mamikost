@@ -2,9 +2,13 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"mamikost/config"
 
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/spf13/viper"
 )
@@ -54,5 +58,43 @@ func Close(conn *pgxpool.Conn) {
 	log.Println("Database already closed..")
 	if err != nil {
 		log.Fatalf("Unable to close connection %v\n", err)
+	}
+}
+
+func AutoMigrate(config config.Config) {
+
+	path := fmt.Sprintf("file://%s", viper.GetString("migration.migration_path"))
+	dsn := viper.GetString("migration.db_url")
+
+	m, err := migrate.New(path, dsn)
+	if err != nil {
+		log.Fatalf("unable to create migration: %v\n", err)
+	}
+
+	if config.DBRecreate {
+		if err := m.Down(); err != nil {
+			if err != migrate.ErrNoChange {
+				log.Fatalf("unable to drop database: %v\n", err)
+			}
+		}
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatalf("unable to migrate database: %v\n", err)
+	}
+}
+
+func Drop(config config.Config) {
+	path := fmt.Sprintf("file://%s", config.MigrationPath)
+	dsn := viper.GetString("database.connection_string")
+
+	m, err := migrate.New(path, dsn)
+	if err != nil {
+		log.Fatalf("unable to create migration: %v\n", err)
+	}
+	if err := m.Down(); err != nil {
+		if err != migrate.ErrNoChange {
+			log.Fatalf("unable to drop database: %v\n", err)
+		}
 	}
 }

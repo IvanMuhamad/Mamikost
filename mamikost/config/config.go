@@ -15,6 +15,8 @@ type Config struct {
 	ApiSecret             string        `mapstructure:"token_hour_lifespan"`
 	AccessTokenDuration   time.Duration `mapstructure:"api_secret"`
 	HttpServerAddress     string        `mapstructure:"server_address"`
+	MigrationPath         string        `mapstructure:"migration_path"`
+	DBRecreate            bool          `mapstructure:"db_recreate"`
 }
 
 func LoadConfig(name string, path string) (config Config) {
