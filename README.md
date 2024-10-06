@@ -15,5 +15,7 @@ JWT: Autentikasi berbasis token.
 
 Swagger: Dokumentasi API.
 
+Postman: Pengujian API
+
 Docker: Containerisasi untuk memudahkan deployment dan pengujian.
 
