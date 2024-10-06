@@ -9,7 +9,7 @@ Gin: Framework web HTTP.
 
 SQLC: Alat untuk menghasilkan kode Go dari query SQL.
 
-PostgreSQL: Basis data untuk menyimpan informasi properti sewa dan pesanan.
+PostgreSQL: Database untuk menyimpan informasi properti kost dan pesanan.
 
 JWT: Autentikasi berbasis token.
 
